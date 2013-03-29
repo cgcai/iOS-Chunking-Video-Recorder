@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="4">
+            <objects>
+                <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEH-Lh-EkI">
+                                <items>
+                                    <barButtonItem title="Start Recording" id="605-MV-A8x">
+                                        <connections>
+                                            <action selector="startRecordingHandler:" destination="2" id="eKY-yc-ccA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Start Chunked Recording" id="pg1-y7-4Tu">
+                                        <connections>
+                                            <action selector="startChunkedRecordingHandler:" destination="2" id="0GV-6K-upO"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kbn-zM-yQ1"/>
+                                    <barButtonItem enabled="NO" title="Stop Recording" id="awV-fc-4Uq">
+                                        <connections>
+                                            <action selector="stopRecordingHandler:" destination="2" id="0ME-IR-KbB"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ASv-wU-gUf"/>
+                                    <barButtonItem enabled="NO" title="Chunk" id="g3r-2f-VWW">
+                                        <connections>
+                                            <action selector="chunkRecordingHandler:" destination="2" id="k3R-c6-ZLy"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVj-wI-pCQ">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NVj-wI-pCQ" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" type="default" id="8rn-JJ-nGg"/>
+                            <constraint firstItem="JEH-Lh-EkI" firstAttribute="bottom" secondItem="5" secondAttribute="bottom" type="default" id="H99-QE-VW6"/>
+                            <constraint firstItem="NVj-wI-pCQ" firstAttribute="leading" secondItem="5" secondAttribute="leading" type="default" id="M2k-mp-Lo5"/>
+                            <constraint firstItem="JEH-Lh-EkI" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" type="default" id="Qaa-XP-pZp"/>
+                            <constraint firstItem="NVj-wI-pCQ" firstAttribute="bottom" secondItem="JEH-Lh-EkI" secondAttribute="top" type="default" id="UXD-fp-wRT"/>
+                            <constraint firstItem="NVj-wI-pCQ" firstAttribute="top" secondItem="5" secondAttribute="top" type="default" id="VaT-dw-5Eg"/>
+                            <constraint firstItem="JEH-Lh-EkI" firstAttribute="leading" secondItem="5" secondAttribute="leading" type="default" id="a9s-u3-JAn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chunkRecordingButton" destination="g3r-2f-VWW" id="Ml2-dZ-VA3"/>
+                        <outlet property="previewView" destination="NVj-wI-pCQ" id="FmL-al-2ut"/>
+                        <outlet property="startChunkedRecordingButton" destination="pg1-y7-4Tu" id="4pZ-aT-bmv"/>
+                        <outlet property="startRecordingButton" destination="605-MV-A8x" id="dpQ-zr-pmo"/>
+                        <outlet property="stopRecordingButton" destination="awV-fc-4Uq" id="TSO-wH-J4s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="108"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
