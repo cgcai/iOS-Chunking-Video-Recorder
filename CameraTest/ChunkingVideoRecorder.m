@@ -109,6 +109,7 @@
 - (void) stopRecording {
     _videoRecordingPermanentStop = YES;
     _videoRecordingChunkStop = NO;
+    _recordingDirectory = nil;
     
     [_movieFileOutput stopRecording];
     isRecording = NO;

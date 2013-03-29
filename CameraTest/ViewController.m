@@ -11,11 +11,12 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (strong) ChunkingVideoRecorder *_capture;
+@property (strong) TimedChunkingVideoRecorder *_capture;
 @property (strong) NSString *_defaultDocumentDirectory;
 
 - (void) enableAllButtons;
 - (void) disableButtonsForManualChunking;
+- (void) disableButtonsForTimedChunking;
 
 @end
 
@@ -33,7 +34,7 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     _defaultDocumentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    _capture = [[ChunkingVideoRecorder alloc] initWithPreset:AVCaptureSessionPresetMedium];
+    _capture = [[TimedChunkingVideoRecorder alloc] initWithPreset:AVCaptureSessionPresetMedium];
     _capture.delegate = self;
 }
 
@@ -64,6 +65,11 @@
     [_capture chunk];
 }
 
+- (IBAction)startTimedRecordingHandler:(id)sender {
+    [_capture startTimedRecordingToDirectory:_defaultDocumentDirectory chunkInterval:10.];
+    [self disableButtonsForTimedChunking];
+}
+
 - (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index {
     NSLog(@"new chunk=%@ index=%d", chunk, index);
 }
@@ -86,6 +92,12 @@
     startRecordingButton.enabled = NO;
     stopRecordingButton.enabled = YES;
     chunkRecordingButton.enabled = YES;
+}
+
+- (void) disableButtonsForTimedChunking {
+    startRecordingButton.enabled = NO;
+    stopRecordingButton.enabled = YES;
+    chunkRecordingButton.enabled = NO;
 }
 
 @end

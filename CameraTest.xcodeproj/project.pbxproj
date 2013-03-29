@@ -20,6 +20,7 @@
 		4A44D51916EF26C800FC6DAC /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A44D51716EF26C800FC6DAC /* MainStoryboard.storyboard */; };
 		4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A44D51B16EF26C800FC6DAC /* ViewController.m */; };
 		4A44D52316EF273E00FC6DAC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D52216EF273E00FC6DAC /* AVFoundation.framework */; };
+		4AF3BEB01705C4F400AA252C /* TimedChunkingVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3BEAF1705C4F400AA252C /* TimedChunkingVideoRecorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		4A44D51A16EF26C800FC6DAC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4A44D51B16EF26C800FC6DAC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4A44D52216EF273E00FC6DAC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4AF3BEAE1705C4F400AA252C /* TimedChunkingVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimedChunkingVideoRecorder.h; sourceTree = "<group>"; };
+		4AF3BEAF1705C4F400AA252C /* TimedChunkingVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimedChunkingVideoRecorder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +69,8 @@
 				4A105E9717058A7B005458F8 /* ChunkingVideoRecorder.h */,
 				4A105E9817058A7B005458F8 /* ChunkingVideoRecorder.m */,
 				4A105E9A17058A90005458F8 /* ChunkingVideoRecorderDelegate.h */,
+				4AF3BEAE1705C4F400AA252C /* TimedChunkingVideoRecorder.h */,
+				4AF3BEAF1705C4F400AA252C /* TimedChunkingVideoRecorder.m */,
 			);
 			name = ChunkingVideoRecorder;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 				4A44D51016EF26C800FC6DAC /* AppDelegate.m in Sources */,
 				4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */,
 				4A105E9917058A7B005458F8 /* ChunkingVideoRecorder.m in Sources */,
+				4AF3BEB01705C4F400AA252C /* TimedChunkingVideoRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
