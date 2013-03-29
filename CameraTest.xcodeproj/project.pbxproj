@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A105E9917058A7B005458F8 /* ChunkingVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A105E9817058A7B005458F8 /* ChunkingVideoRecorder.m */; };
 		4A44D50016EF26C800FC6DAC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D4FF16EF26C800FC6DAC /* UIKit.framework */; };
 		4A44D50216EF26C800FC6DAC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D50116EF26C800FC6DAC /* Foundation.framework */; };
 		4A44D50416EF26C800FC6DAC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D50316EF26C800FC6DAC /* CoreGraphics.framework */; };
@@ -19,11 +20,12 @@
 		4A44D51916EF26C800FC6DAC /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A44D51716EF26C800FC6DAC /* MainStoryboard.storyboard */; };
 		4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A44D51B16EF26C800FC6DAC /* ViewController.m */; };
 		4A44D52316EF273E00FC6DAC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D52216EF273E00FC6DAC /* AVFoundation.framework */; };
-		4AC0844A16F1692500496D7D /* ChunkedVideoCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC0844916F1692500496D7D /* ChunkedVideoCapture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4A33C83216F20462009BA571 /* VideoCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCapture.h; sourceTree = "<group>"; };
+		4A105E9717058A7B005458F8 /* ChunkingVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChunkingVideoRecorder.h; sourceTree = "<group>"; };
+		4A105E9817058A7B005458F8 /* ChunkingVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChunkingVideoRecorder.m; sourceTree = "<group>"; };
+		4A105E9A17058A90005458F8 /* ChunkingVideoRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChunkingVideoRecorderDelegate.h; sourceTree = "<group>"; };
 		4A44D4FC16EF26C800FC6DAC /* CameraTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A44D4FF16EF26C800FC6DAC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4A44D50116EF26C800FC6DAC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -41,9 +43,6 @@
 		4A44D51A16EF26C800FC6DAC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4A44D51B16EF26C800FC6DAC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4A44D52216EF273E00FC6DAC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		4AC0844816F1692500496D7D /* ChunkedVideoCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChunkedVideoCapture.h; sourceTree = "<group>"; };
-		4AC0844916F1692500496D7D /* ChunkedVideoCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChunkedVideoCapture.m; sourceTree = "<group>"; };
-		4AC0844B16F16BC100496D7D /* VideoCaptureDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCaptureDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +60,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A105E9617058A5C005458F8 /* ChunkingVideoRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				4A105E9717058A7B005458F8 /* ChunkingVideoRecorder.h */,
+				4A105E9817058A7B005458F8 /* ChunkingVideoRecorder.m */,
+				4A105E9A17058A90005458F8 /* ChunkingVideoRecorderDelegate.h */,
+			);
+			name = ChunkingVideoRecorder;
+			sourceTree = "<group>";
+		};
 		4A44D4F316EF26C800FC6DAC = {
 			isa = PBXGroup;
 			children = (
@@ -92,16 +101,13 @@
 		4A44D50516EF26C800FC6DAC /* CameraTest */ = {
 			isa = PBXGroup;
 			children = (
+				4A105E9617058A5C005458F8 /* ChunkingVideoRecorder */,
 				4A44D50E16EF26C800FC6DAC /* AppDelegate.h */,
 				4A44D50F16EF26C800FC6DAC /* AppDelegate.m */,
 				4A44D51716EF26C800FC6DAC /* MainStoryboard.storyboard */,
 				4A44D51A16EF26C800FC6DAC /* ViewController.h */,
 				4A44D51B16EF26C800FC6DAC /* ViewController.m */,
 				4A44D50616EF26C800FC6DAC /* Supporting Files */,
-				4AC0844816F1692500496D7D /* ChunkedVideoCapture.h */,
-				4AC0844916F1692500496D7D /* ChunkedVideoCapture.m */,
-				4AC0844B16F16BC100496D7D /* VideoCaptureDelegate.h */,
-				4A33C83216F20462009BA571 /* VideoCapture.h */,
 			);
 			path = CameraTest;
 			sourceTree = "<group>";
@@ -189,7 +195,7 @@
 				4A44D50C16EF26C800FC6DAC /* main.m in Sources */,
 				4A44D51016EF26C800FC6DAC /* AppDelegate.m in Sources */,
 				4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */,
-				4AC0844A16F1692500496D7D /* ChunkedVideoCapture.m in Sources */,
+				4A105E9917058A7B005458F8 /* ChunkingVideoRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

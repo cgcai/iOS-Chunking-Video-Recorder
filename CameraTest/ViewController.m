@@ -11,7 +11,11 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (strong) ChunkedVideoCapture *capture;
+@property (strong) ChunkingVideoRecorder *_capture;
+@property (strong) NSString *_defaultDocumentDirectory;
+
+- (void) enableAllButtons;
+- (void) disableButtonsForManualChunking;
 
 @end
 
@@ -21,71 +25,67 @@
 @synthesize startRecordingButton;
 @synthesize stopRecordingButton;
 @synthesize chunkRecordingButton;
-@synthesize startChunkedRecordingButton;
 
 // Programmatic elements.
-@synthesize capture;
+@synthesize _capture;
+@synthesize _defaultDocumentDirectory;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    capture = [[ChunkedVideoCapture alloc] initWithPreset:AVCaptureSessionPresetMedium];
-    capture.delegate = self;
+    _defaultDocumentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    _capture = [[ChunkingVideoRecorder alloc] initWithPreset:AVCaptureSessionPresetMedium];
+    _capture.delegate = self;
 }
 
 - (void) viewDidLayoutSubviews {
-    [capture startSession];
-    
-    capture.previewLayer.frame = previewView.frame;
-    capture.previewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-    [previewView.layer addSublayer:capture.previewLayer];
+    [_capture startPreview];
+    _capture.previewLayer.frame = previewView.frame;
+    _capture.previewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    [previewView.layer addSublayer:_capture.previewLayer];
 }
 
 - (void) didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
 }
 
 - (IBAction) startRecordingHandler:(id)sender {
-    [capture startRecordingWithManualChunking];
-    
-    startRecordingButton.enabled = NO;
-    startChunkedRecordingButton.enabled = NO;
-    stopRecordingButton.enabled = YES;
-    chunkRecordingButton.enabled = YES;
+    [_capture startRecordingToDirectory:_defaultDocumentDirectory];
+    [self disableButtonsForManualChunking];
 }
 
 - (IBAction) stopRecordingHandler:(id)sender {
-    [capture stopRecording];
-    
+    [_capture stopRecording];
+    [self enableAllButtons];
+}
+
+- (IBAction) chunkRecordingHandler:(id)sender {
+    [_capture chunk];
+}
+
+- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index {
+    NSLog(@"new chunk=%@ index=%d", chunk, index);
+}
+
+- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index {
+    NSLog(@"recoding stopped. last chunk=%@ index=%d", chunk, index);
+}
+
+- (void) chunkingVideoRecorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
+    NSLog(@"recording started!");
+}
+
+- (void) enableAllButtons {
     startRecordingButton.enabled = YES;
-    startChunkedRecordingButton.enabled = YES;
     stopRecordingButton.enabled = NO;
     chunkRecordingButton.enabled = NO;
 }
 
-- (IBAction) chunkRecordingHandler:(id)sender {
-    [capture chunkNow];
-}
-
-- (IBAction)startChunkedRecordingHandler:(id)sender {
-    [capture startRecordingWithChunkTimer:10];
-    
+- (void) disableButtonsForManualChunking {
     startRecordingButton.enabled = NO;
-    startChunkedRecordingButton.enabled = NO;
     stopRecordingButton.enabled = YES;
-    chunkRecordingButton.enabled = NO;
-}
-
-- (void) videoCapture:(ChunkedVideoCapture *)sender didChunkVideoInDirectory:(NSString *)path {
-    NSLog(@"new chunk!");
-}
-
-- (void) videoCapture:(ChunkedVideoCapture *)sender didStartRecordingToDirectory:(NSString *)path {
-    NSLog(@"recording started!");
-}
-
-- (void) videoCapture:(ChunkedVideoCapture *)sender didStopRecordingToDirectory:(NSString *)path {
-    NSLog(@"recoding stopped.");
+    chunkRecordingButton.enabled = YES;
 }
 
 @end

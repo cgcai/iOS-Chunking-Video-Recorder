@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -17,11 +17,6 @@
                                     <barButtonItem title="Start Recording" id="605-MV-A8x">
                                         <connections>
                                             <action selector="startRecordingHandler:" destination="2" id="eKY-yc-ccA"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Start Chunked Recording" id="pg1-y7-4Tu">
-                                        <connections>
-                                            <action selector="startChunkedRecordingHandler:" destination="2" id="0GV-6K-upO"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="kbn-zM-yQ1"/>
@@ -56,7 +51,6 @@
                     <connections>
                         <outlet property="chunkRecordingButton" destination="g3r-2f-VWW" id="Ml2-dZ-VA3"/>
                         <outlet property="previewView" destination="NVj-wI-pCQ" id="FmL-al-2ut"/>
-                        <outlet property="startChunkedRecordingButton" destination="pg1-y7-4Tu" id="4pZ-aT-bmv"/>
                         <outlet property="startRecordingButton" destination="605-MV-A8x" id="dpQ-zr-pmo"/>
                         <outlet property="stopRecordingButton" destination="awV-fc-4Uq" id="TSO-wH-J4s"/>
                     </connections>
@@ -66,6 +60,23 @@
             <point key="canvasLocation" x="132" y="108"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="chunkRecordingHandler:"/>
+                <relationship kind="action" name="startRecordingHandler:"/>
+                <relationship kind="action" name="stopRecordingHandler:"/>
+                <relationship kind="outlet" name="chunkRecordingButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="previewView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="startRecordingButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="stopRecordingButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
