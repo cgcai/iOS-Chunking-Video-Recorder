@@ -20,6 +20,7 @@
 		4A44D51916EF26C800FC6DAC /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A44D51716EF26C800FC6DAC /* MainStoryboard.storyboard */; };
 		4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A44D51B16EF26C800FC6DAC /* ViewController.m */; };
 		4A44D52316EF273E00FC6DAC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A44D52216EF273E00FC6DAC /* AVFoundation.framework */; };
+		4A45E1AE1705CDE100092851 /* HLSEventPlaylistHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A45E1AD1705CDE100092851 /* HLSEventPlaylistHelper.m */; };
 		4AF3BEB01705C4F400AA252C /* TimedChunkingVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF3BEAF1705C4F400AA252C /* TimedChunkingVideoRecorder.m */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,8 @@
 		4A44D51A16EF26C800FC6DAC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4A44D51B16EF26C800FC6DAC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4A44D52216EF273E00FC6DAC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4A45E1AC1705CDE100092851 /* HLSEventPlaylistHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSEventPlaylistHelper.h; sourceTree = "<group>"; };
+		4A45E1AD1705CDE100092851 /* HLSEventPlaylistHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSEventPlaylistHelper.m; sourceTree = "<group>"; };
 		4AF3BEAE1705C4F400AA252C /* TimedChunkingVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimedChunkingVideoRecorder.h; sourceTree = "<group>"; };
 		4AF3BEAF1705C4F400AA252C /* TimedChunkingVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimedChunkingVideoRecorder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +109,7 @@
 		4A44D50516EF26C800FC6DAC /* CameraTest */ = {
 			isa = PBXGroup;
 			children = (
+				4A45E1AB1705CDC000092851 /* Http Live Streaming */,
 				4A105E9617058A5C005458F8 /* ChunkingVideoRecorder */,
 				4A44D50E16EF26C800FC6DAC /* AppDelegate.h */,
 				4A44D50F16EF26C800FC6DAC /* AppDelegate.m */,
@@ -129,6 +133,15 @@
 				4A44D51516EF26C800FC6DAC /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4A45E1AB1705CDC000092851 /* Http Live Streaming */ = {
+			isa = PBXGroup;
+			children = (
+				4A45E1AC1705CDE100092851 /* HLSEventPlaylistHelper.h */,
+				4A45E1AD1705CDE100092851 /* HLSEventPlaylistHelper.m */,
+			);
+			name = "Http Live Streaming";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +215,7 @@
 				4A44D51C16EF26C800FC6DAC /* ViewController.m in Sources */,
 				4A105E9917058A7B005458F8 /* ChunkingVideoRecorder.m in Sources */,
 				4AF3BEB01705C4F400AA252C /* TimedChunkingVideoRecorder.m in Sources */,
+				4A45E1AE1705CDE100092851 /* HLSEventPlaylistHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

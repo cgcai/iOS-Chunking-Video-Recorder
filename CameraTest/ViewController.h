@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "TimedChunkingVideoRecorder.h"
+#import "HLSEventPlaylistHelper.h"
 
 @interface ViewController : UIViewController <ChunkingVideoRecorderDelegate>
 @property (strong, nonatomic) IBOutlet UIView *previewView;

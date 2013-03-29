@@ -7,11 +7,11 @@
 //
 
 
-#import <AVFoundation/AVFoundation.h>
 #import "ViewController.h"
 
 @interface ViewController ()
 @property (strong) TimedChunkingVideoRecorder *_capture;
+@property (strong) HLSEventPlaylistHelper *_playlistHelper;
 @property (strong) NSString *_defaultDocumentDirectory;
 
 - (void) enableAllButtons;
@@ -24,18 +24,25 @@
 // Storyboard elements.
 @synthesize previewView;
 @synthesize startRecordingButton;
+@synthesize startTimedRecordingButton;
 @synthesize stopRecordingButton;
 @synthesize chunkRecordingButton;
 
 // Programmatic elements.
 @synthesize _capture;
 @synthesize _defaultDocumentDirectory;
+@synthesize _playlistHelper;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
     _defaultDocumentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
     _capture = [[TimedChunkingVideoRecorder alloc] initWithPreset:AVCaptureSessionPresetMedium];
     _capture.delegate = self;
+    
+    NSString *playlistPath = [_defaultDocumentDirectory stringByAppendingPathComponent:@"playlist.m3u8"];
+    NSURL *playlistURL = [[NSURL alloc] initFileURLWithPath:playlistPath];
+    _playlistHelper = [[HLSEventPlaylistHelper alloc] initWithFileURL:playlistURL];
 }
 
 - (void) viewDidLayoutSubviews {
@@ -66,36 +73,46 @@
 }
 
 - (IBAction)startTimedRecordingHandler:(id)sender {
-    [_capture startTimedRecordingToDirectory:_defaultDocumentDirectory chunkInterval:10.];
+    [_capture startTimedRecordingToDirectory:_defaultDocumentDirectory chunkInterval:10];
     [self disableButtonsForTimedChunking];
 }
 
 - (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index {
     NSLog(@"new chunk=%@ index=%d", chunk, index);
+    
+    [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
 }
 
 - (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index {
     NSLog(@"recoding stopped. last chunk=%@ index=%d", chunk, index);
+    
+    [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
+    [_playlistHelper endPlaylist];
 }
 
 - (void) chunkingVideoRecorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
     NSLog(@"recording started!");
+    
+    [_playlistHelper beginPlaylistWithTargetInterval:12];
 }
 
 - (void) enableAllButtons {
     startRecordingButton.enabled = YES;
+    startTimedRecordingButton.enabled = YES;
     stopRecordingButton.enabled = NO;
     chunkRecordingButton.enabled = NO;
 }
 
 - (void) disableButtonsForManualChunking {
     startRecordingButton.enabled = NO;
+    startTimedRecordingButton.enabled = NO;
     stopRecordingButton.enabled = YES;
     chunkRecordingButton.enabled = YES;
 }
 
 - (void) disableButtonsForTimedChunking {
     startRecordingButton.enabled = NO;
+    startTimedRecordingButton.enabled = NO;
     stopRecordingButton.enabled = YES;
     chunkRecordingButton.enabled = NO;
 }
