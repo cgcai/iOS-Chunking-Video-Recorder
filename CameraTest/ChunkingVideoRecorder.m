@@ -12,6 +12,7 @@
 // Redefinitions.
 @property (atomic, readwrite) BOOL isPreviewing;
 @property (atomic, readwrite) BOOL isRecording;
+@property (readwrite, strong) AVCaptureVideoPreviewLayer *previewLayer;
 
 // Internal.
 @property (strong) AVCaptureSession *_session;

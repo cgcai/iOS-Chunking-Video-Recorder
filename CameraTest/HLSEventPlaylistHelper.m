@@ -29,6 +29,7 @@ NSUInteger const cDefaultSequenceNumber = 0;
 @synthesize _targetInterval;
 @synthesize _buffer;
 
+#pragma mark Constructors
 - (id) initWithFileURL:(NSURL *)url {
     if (self = [super init]) {
         _fileName = url;
@@ -37,6 +38,7 @@ NSUInteger const cDefaultSequenceNumber = 0;
     return self;
 }
 
+#pragma mark Playlist Manipulation
 - (void) beginPlaylistWithTargetInterval:(NSUInteger)period {
     _targetInterval = period;
     _buffer = [[NSMutableString alloc] init];
@@ -66,6 +68,7 @@ NSUInteger const cDefaultSequenceNumber = 0;
     [self writeBufferToFile];
 }
 
+#pragma mark Serialization
 // If the file exists, it is truncated and overwritten.
 - (void) writeBufferToFile {
     if (!_buffer) {

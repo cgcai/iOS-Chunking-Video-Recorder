@@ -14,7 +14,7 @@
 @property (weak) id<ChunkingVideoRecorderDelegate> delegate;
 @property (atomic, readonly) BOOL isPreviewing;
 @property (atomic, readonly) BOOL isRecording;
-@property (strong) AVCaptureVideoPreviewLayer *previewLayer;
+@property (readonly, strong) AVCaptureVideoPreviewLayer *previewLayer;
 
 - (id) initWithPreset:(NSString *)preset;
 - (AVCaptureVideoPreviewLayer *) startPreview;
