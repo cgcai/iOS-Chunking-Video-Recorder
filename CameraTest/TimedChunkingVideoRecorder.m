@@ -10,7 +10,7 @@
 
 @interface TimedChunkingVideoRecorder ()
 // Redefinitions.
-@property (atomic, readwrite) NSUInteger interval;
+@property (atomic, readwrite) CGFloat interval;
 
 // Internal.
 @property (strong) NSTimer *_chunkTimer;
@@ -37,7 +37,7 @@
 }
 
 #pragma mark Timed Chunking
-- (void) startTimedRecordingToDirectory:(NSString *)directory chunkInterval:(NSUInteger)period {
+- (void) startTimedRecordingToDirectory:(NSString *)directory chunkInterval:(CGFloat)period {
     interval = period;
     [self startRecordingToDirectory:directory];
     if (interval != 0.) {

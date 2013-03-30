@@ -9,10 +9,10 @@
 #import "ChunkingVideoRecorder.h"
 
 @interface TimedChunkingVideoRecorder : ChunkingVideoRecorder
-@property (atomic, readonly) NSUInteger interval;
+@property (atomic, readonly) CGFloat interval;
 
 - (id) initWithPreset:(NSString *)preset;
-- (void) startTimedRecordingToDirectory:(NSString *)directory chunkInterval:(NSUInteger)period;
+- (void) startTimedRecordingToDirectory:(NSString *)directory chunkInterval:(CGFloat)period;
 - (void) stopRecording;
 
 @end

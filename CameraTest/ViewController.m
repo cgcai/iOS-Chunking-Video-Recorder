@@ -80,13 +80,13 @@
 - (void) recorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration{
     NSLog(@"new chunk=%@ index=%d duration=%lf", chunk, index, duration);
     
-    [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
+    [_playlistHelper appendItem:[chunk relativePath] withDuration:duration];
 }
 
 - (void) recorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration{
     NSLog(@"recoding stopped. last chunk=%@ index=%d duration=%lf", chunk, index, duration);
     
-    [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
+    [_playlistHelper appendItem:[chunk relativePath] withDuration:duration];
     [_playlistHelper endPlaylist];
 }
 

@@ -11,8 +11,8 @@
 @interface HLSEventPlaylistHelper : NSObject
 - (id) initWithFileURL:(NSURL *)url;
 - (void) beginPlaylistWithTargetInterval:(NSUInteger)period;
-- (void) appendItem:(NSString *)path withDuration:(NSUInteger)length;
-- (void) appendItem:(NSString *)path withDuration:(NSUInteger)length withTitle:(NSString *)title;
+- (void) appendItem:(NSString *)path withDuration:(CGFloat)duration;
+- (void) appendItem:(NSString *)path withDuration:(CGFloat)duration withTitle:(NSString *)title;
 - (void) endPlaylist;
 
 @end

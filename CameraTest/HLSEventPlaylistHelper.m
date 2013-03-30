@@ -9,7 +9,7 @@
 #import "HLSEventPlaylistHelper.h"
 
 NSString *const cPlaylistHeaderFormat = @"#EXTM3U\n#EXT-X-PLAYLIST-TYPE:EVENT\n#EXT-X-TARGETDURATION:%d\n#EXT-X-MEDIA-SEQUENCE:%d\n";
-NSString *const cPlaylistMediaItemFormat = @"#EXTINF:%d,%@\n%@\n";
+NSString *const cPlaylistMediaItemFormat = @"#EXTINF:%lf,%@\n%@\n";
 NSString *const cPlaylistTrailerFormat = @"#EXT-X-ENDLIST";
 NSUInteger const cDefaultSequenceNumber = 0;
 
@@ -44,16 +44,16 @@ NSUInteger const cDefaultSequenceNumber = 0;
     [_buffer appendFormat:cPlaylistHeaderFormat, _targetInterval, cDefaultSequenceNumber];
 }
 
-- (void) appendItem:(NSString *)path withDuration:(NSUInteger)length {    
-    [self appendItem:path withDuration:length withTitle:@""];
+- (void) appendItem:(NSString *)path withDuration:(CGFloat)duration {
+    [self appendItem:path withDuration:duration withTitle:@""];
 }
 
-- (void) appendItem:(NSString *)path withDuration:(NSUInteger)length withTitle:(NSString *)title {
+- (void) appendItem:(NSString *)path withDuration:(CGFloat)duration withTitle:(NSString *)title {
     if (!_buffer) {
         return;
     }
     
-    [_buffer appendFormat:cPlaylistMediaItemFormat, length, title, path];
+    [_buffer appendFormat:cPlaylistMediaItemFormat, duration, title, path];
     [self writeBufferToFile];
 }
 
