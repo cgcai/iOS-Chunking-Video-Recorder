@@ -206,7 +206,7 @@
 }
 
 - (NSURL *) newChunkUrlInDirectory:(NSString *)directory {
-    NSString *outputFile = [NSString stringWithFormat:@"%@/chunk%d.mp4", directory, [self getAndIncrementChunkId]];
+    NSString *outputFile = [NSString stringWithFormat:@"%@/chunk%d.ts", directory, [self getAndIncrementChunkId]];
     return [NSURL fileURLWithPath:outputFile];
 }
 
