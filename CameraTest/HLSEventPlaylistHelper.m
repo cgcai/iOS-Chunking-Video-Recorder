@@ -75,8 +75,7 @@ NSUInteger const cDefaultSequenceNumber = 0;
         return;
     }
     
-    // Debug:
-    NSLog(@"%@", _buffer);
+    // NSLog(@"%@", _buffer); // Debug.
     
     NSData *data = [_buffer dataUsingEncoding:NSUTF8StringEncoding];
     [data writeToURL:_fileName atomically:YES];

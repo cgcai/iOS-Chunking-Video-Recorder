@@ -7,12 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HLSEventProducer.h"
+
+@class HLSEventProducer;
 
 @protocol HLSEventProducerDelegate <NSObject>
 // Informational.
 - (NSInteger) newRecordingId;
 
 // Callbacks.
-
+- (void) eventProducer:(HLSEventProducer *)producer hasNewPlaylist:(NSString *)playlist firstChunk:(NSString *)chunk duration:(NSTimeInterval)duration;
+- (void) eventProducer:(HLSEventProducer *)producer updatedPlaylist:(NSString *)playlist newChunk:(NSString *)chunk duration:(NSTimeInterval)duration;
+- (void) eventProducer:(HLSEventProducer *)producer endedRecordingToPlaylist:(NSString *)playlist;
 
 @end

@@ -20,6 +20,8 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 @property (atomic) CGFloat _chunkInterval;
 @property (strong) NSString *_preset;
 @property (atomic) NSInteger _curRecordingId;
+@property (atomic) BOOL _nextChunkIsFirst;
+@property (strong) NSString *_curPlaylistPath;
 
 // Serious business.
 @property (strong) TimedChunkingVideoRecorder *_timedRecorder;
@@ -27,6 +29,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 
 - (NSString *) relativePathFromURL:(NSURL *)url;
 - (NSString *) currentMediaDirectory;
+- (void) executeChunkCallback:(NSString *)chunkPath duration:(NSTimeInterval)span;
 
 @end
 
@@ -40,6 +43,8 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 @synthesize _chunkInterval;
 @synthesize _preset;
 @synthesize _curRecordingId;
+@synthesize _nextChunkIsFirst;
+@synthesize _curPlaylistPath;
 
 // Serious business.
 @synthesize _timedRecorder;
@@ -53,6 +58,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
         _chunkInterval = interval;
         _preset = preset;
         _curRecordingId = cInvalidId;
+        _nextChunkIsFirst = NO;
         
         _timedRecorder = [[TimedChunkingVideoRecorder alloc] initWithPreset:_preset];
         _timedRecorder.delegate = self;
@@ -75,9 +81,9 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
     
     // Initialize the playlist.
     NSString *playlistName = [NSString stringWithFormat:cPlaylistNameFormat, _curRecordingId];
-    NSString *playlistPath = [_playlistDirectory stringByAppendingPathComponent:playlistName];
-    NSLog(@"playlistPath=%@", playlistPath); // Debug.
-    NSURL *playlistURL = [NSURL fileURLWithPath:playlistPath];
+    _curPlaylistPath = [_playlistDirectory stringByAppendingPathComponent:playlistName];
+    NSLog(@"playlistPath=%@", _curPlaylistPath); // Debug.
+    NSURL *playlistURL = [NSURL fileURLWithPath:_curPlaylistPath];
     _playlistHelper = [[HLSEventPlaylistHelper alloc] initWithFileURL:playlistURL];
     [_playlistHelper beginPlaylistWithTargetInterval:(_chunkInterval + cMaxIntervalOffset)]; // Add a small offset to _chunkInterval in case the chunking exceeds the maximum allowed HLS chunk size by a tiny bit.
     
@@ -93,6 +99,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
     
     // Start recording.
     [_timedRecorder startTimedRecordingToDirectory:mediaDirectory chunkInterval:_chunkInterval];
+    _nextChunkIsFirst = YES;
     
     return _curRecordingId;
 }
@@ -103,23 +110,31 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 
 #pragma mark ChunkingVideoRecorderDelegate Methods
 - (void) recorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration {
-    NSLog(@"Recording chunked."); // Debug.
+    if (delegate) {
+        [self executeChunkCallback:[chunk path] duration:duration];
+    }
     
     [_playlistHelper appendItem:[self relativePathFromURL:chunk] withDuration:duration];
 }
 
 - (void) recorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration {
-    NSLog(@"Recording ended (last chunk)."); // Debug.
+    if (delegate) {
+        [self executeChunkCallback:[chunk path] duration:duration];
+    }
     
     [_playlistHelper appendItem:[self relativePathFromURL:chunk] withDuration:duration];
     [_playlistHelper endPlaylist];
     
     _curRecordingId = cInvalidId;
     _playlistHelper = nil;
+    
+    if (delegate) {
+        [delegate eventProducer:self endedRecordingToPlaylist:_curPlaylistPath];
+    }
 }
 
 - (void) recorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
-    NSLog(@"Recording started."); // Debug.
+    // Not used.
 }
 
 #pragma mark Custom Accessors
@@ -157,6 +172,15 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 
 - (NSString *) currentMediaDirectory {
     return [NSString stringWithFormat:cMediaDirectoryFormat, _curRecordingId];
+}
+
+- (void) executeChunkCallback:(NSString *)chunkPath duration:(NSTimeInterval)span {
+    if (_nextChunkIsFirst) {
+        [delegate eventProducer:self hasNewPlaylist:_curPlaylistPath firstChunk:chunkPath duration:span];
+        _nextChunkIsFirst = NO;
+    } else {
+        [delegate eventProducer:self updatedPlaylist:_curPlaylistPath newChunk:chunkPath duration:span];
+    }
 }
 
 @end

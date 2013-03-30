@@ -28,6 +28,7 @@
 @synthesize _producer;
 @synthesize _defaultDocumentDirectory;
 
+#pragma mark ViewController Methods
 - (void) viewDidLoad {
     [super viewDidLoad];
     _defaultDocumentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -49,6 +50,7 @@
     
 }
 
+#pragma mark UI Methods
 - (IBAction) stopRecordingHandler:(id)sender {
     [_producer endRecording];
     [self enableAllButtons];
@@ -59,6 +61,24 @@
     [self disableButtonsForTimedChunking];
 }
 
+#pragma mark HLSEventProducerDelegate Methods
+- (NSInteger) newRecordingId {
+    return 1;
+}
+
+- (void) eventProducer:(HLSEventProducer *)producer endedRecordingToPlaylist:(NSString *)playlist {
+    NSLog(@"recording ended. playlist=%@", playlist);
+}
+
+- (void) eventProducer:(HLSEventProducer *)producer hasNewPlaylist:(NSString *)playlist firstChunk:(NSString *)chunk duration:(NSTimeInterval)duration {
+    NSLog(@"new playlist to stream. playlist=%@ chunk to upload=%@ duration=%lf", playlist, chunk, duration);
+}
+
+- (void) eventProducer:(HLSEventProducer *)producer updatedPlaylist:(NSString *)playlist newChunk:(NSString *)chunk duration:(NSTimeInterval)duration {
+    NSLog(@"updated playlist=%@ chunk to upload=%@ duration=%lf", playlist, chunk, duration);
+}
+
+#pragma mark Utility
 - (void) enableAllButtons {
     startTimedRecordingButton.enabled = YES;
     stopRecordingButton.enabled = NO;
@@ -67,10 +87,6 @@
 - (void) disableButtonsForTimedChunking {
     startTimedRecordingButton.enabled = NO;
     stopRecordingButton.enabled = YES;
-}
-
-- (NSInteger) newRecordingId {
-    return 1;
 }
 
 @end
