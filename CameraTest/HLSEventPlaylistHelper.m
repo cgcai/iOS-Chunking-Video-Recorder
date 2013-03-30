@@ -54,6 +54,7 @@ NSUInteger const cDefaultSequenceNumber = 0;
     }
     
     [_buffer appendFormat:cPlaylistMediaItemFormat, length, title, path];
+    [self writeBufferToFile];
 }
 
 - (void) endPlaylist {
