@@ -12,8 +12,8 @@
 @class ChunkingVideoRecorder;
 
 @protocol ChunkingVideoRecorderDelegate <NSObject>
-- (void) chunkingVideoRecorderDidStartRecording:(ChunkingVideoRecorder *)recorder;
-- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index;
-- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index;
+- (void) recorderDidStartRecording:(ChunkingVideoRecorder *)recorder;
+- (void) recorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration;
+- (void) recorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration;
 
 @end

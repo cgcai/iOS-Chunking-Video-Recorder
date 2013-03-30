@@ -77,20 +77,20 @@
     [self disableButtonsForTimedChunking];
 }
 
-- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index {
-    NSLog(@"new chunk=%@ index=%d", chunk, index);
+- (void) recorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration{
+    NSLog(@"new chunk=%@ index=%d duration=%lf", chunk, index, duration);
     
     [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
 }
 
-- (void) chunkingVideoRecorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index {
-    NSLog(@"recoding stopped. last chunk=%@ index=%d", chunk, index);
+- (void) recorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration{
+    NSLog(@"recoding stopped. last chunk=%@ index=%d duration=%lf", chunk, index, duration);
     
     [_playlistHelper appendItem:[chunk relativePath] withDuration:10];
     [_playlistHelper endPlaylist];
 }
 
-- (void) chunkingVideoRecorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
+- (void) recorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
     NSLog(@"recording started!");
     
     [_playlistHelper beginPlaylistWithTargetInterval:12];

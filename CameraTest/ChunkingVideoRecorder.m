@@ -21,6 +21,7 @@
 @property (atomic) BOOL _videoRecordingPermanentStop;
 @property (atomic) BOOL _videoRecordingChunkStop;
 @property (strong) NSString *_recordingDirectory;
+@property (strong) NSDate *_chunkStart;
 
 - (AVCaptureDevice *) getCameraInput;
 - (AVCaptureDeviceInput *) getMicInput;
@@ -47,6 +48,7 @@
 @synthesize _videoRecordingPermanentStop;
 @synthesize _videoRecordingChunkStop;
 @synthesize _recordingDirectory;
+@synthesize _chunkStart;
 
 #pragma mark Constructors
 - (id) initWithPreset:(NSString *)preset {
@@ -102,7 +104,7 @@
     
     isRecording = YES;
     if (delegate) {
-        [delegate chunkingVideoRecorderDidStartRecording:self];
+        [delegate recorderDidStartRecording:self];
     }    
 }
 
@@ -124,7 +126,8 @@
 
 #pragma mark AVCaptureFileOutputRecordingDelegate Methods
 - (void) captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections {
-    // Not used.
+    // Store the start date of the recording so we can compute its length when it ends.
+    _chunkStart = [NSDate date];
 }
 
 - (void) captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
@@ -133,9 +136,13 @@
         return;
     }
     
+    // Calculate duration and reset _chunkStart.
+    NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:_chunkStart];
+    _chunkStart = nil;
+    
     if (_videoRecordingChunkStop) {
         if (delegate) {
-            [delegate chunkingVideoRecorder:self didChunk:outputFileURL index:[self peekChunkId]];
+            [delegate recorder:self didChunk:outputFileURL index:[self peekChunkId] duration:duration];
         }
         
         // Restart recording if the previous file output was stopped due to a chunk request.
@@ -147,7 +154,7 @@
         [_session removeOutput:_movieFileOutput];
         _movieFileOutput = nil;
         if (delegate) {
-            [delegate chunkingVideoRecorder:self didStopRecordingWithChunk:outputFileURL index:[self peekChunkId]];
+            [delegate recorder:self didStopRecordingWithChunk:outputFileURL index:[self peekChunkId] duration:duration];
         }
     }
 }
