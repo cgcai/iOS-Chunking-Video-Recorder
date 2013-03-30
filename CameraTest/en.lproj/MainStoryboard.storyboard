@@ -14,11 +14,6 @@
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEH-Lh-EkI">
                                 <items>
-                                    <barButtonItem title="Start Recording" id="605-MV-A8x">
-                                        <connections>
-                                            <action selector="startRecordingHandler:" destination="2" id="eKY-yc-ccA"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem title="Start Timed Recording" id="Zap-2h-1BK">
                                         <connections>
                                             <action selector="startTimedRecordingHandler:" destination="2" id="14q-hQ-IEl"/>
@@ -28,12 +23,6 @@
                                     <barButtonItem enabled="NO" title="Stop Recording" id="awV-fc-4Uq">
                                         <connections>
                                             <action selector="stopRecordingHandler:" destination="2" id="0ME-IR-KbB"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ASv-wU-gUf"/>
-                                    <barButtonItem enabled="NO" title="Chunk" id="g3r-2f-VWW">
-                                        <connections>
-                                            <action selector="chunkRecordingHandler:" destination="2" id="k3R-c6-ZLy"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -54,9 +43,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="chunkRecordingButton" destination="g3r-2f-VWW" id="Ml2-dZ-VA3"/>
                         <outlet property="previewView" destination="NVj-wI-pCQ" id="FmL-al-2ut"/>
-                        <outlet property="startRecordingButton" destination="605-MV-A8x" id="dpQ-zr-pmo"/>
                         <outlet property="startTimedRecordingButton" destination="Zap-2h-1BK" id="7u9-Zq-WZA"/>
                         <outlet property="stopRecordingButton" destination="awV-fc-4Uq" id="TSO-wH-J4s"/>
                     </connections>

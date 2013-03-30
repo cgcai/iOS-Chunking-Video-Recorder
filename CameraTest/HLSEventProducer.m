@@ -9,8 +9,9 @@
 #import "HLSEventProducer.h"
 
 NSInteger const cInvalidId = -1;
-NSString *const cPlaylistNameFormat = @"%@.m3u8";
 CGFloat const cMaxIntervalOffset = 1.;
+NSString *const cPlaylistNameFormat = @"rec-%d.m3u8";
+NSString *const cMediaDirectoryFormat = @"mdir-%d";
 NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 
 @interface HLSEventProducer ()
@@ -23,6 +24,9 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 // Serious business.
 @property (strong) TimedChunkingVideoRecorder *_timedRecorder;
 @property (strong) HLSEventPlaylistHelper *_playlistHelper;
+
+- (NSString *) relativePathFromURL:(NSURL *)url;
+- (NSString *) currentMediaDirectory;
 
 @end
 
@@ -51,6 +55,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
         _curRecordingId = cInvalidId;
         
         _timedRecorder = [[TimedChunkingVideoRecorder alloc] initWithPreset:_preset];
+        _timedRecorder.delegate = self;
         [_timedRecorder startPreview];
         
         _playlistHelper = nil; // The playlist helper class should be instantiated per playlist.
@@ -69,15 +74,17 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
     _curRecordingId = [delegate newRecordingId];
     
     // Initialize the playlist.
-    NSString *playlistName = [NSString stringWithFormat:cPlaylistNameFormat, [NSString stringWithFormat:@"%d", _curRecordingId]];
+    NSString *playlistName = [NSString stringWithFormat:cPlaylistNameFormat, _curRecordingId];
     NSString *playlistPath = [_playlistDirectory stringByAppendingPathComponent:playlistName];
+    NSLog(@"playlistPath=%@", playlistPath); // Debug.
     NSURL *playlistURL = [NSURL fileURLWithPath:playlistPath];
     _playlistHelper = [[HLSEventPlaylistHelper alloc] initWithFileURL:playlistURL];
     [_playlistHelper beginPlaylistWithTargetInterval:(_chunkInterval + cMaxIntervalOffset)]; // Add a small offset to _chunkInterval in case the chunking exceeds the maximum allowed HLS chunk size by a tiny bit.
     
     // Create media content directory.
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *mediaDirectory = [_playlistDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", _curRecordingId]];
+    NSString *mediaDirectory = [_playlistDirectory stringByAppendingPathComponent:[self currentMediaDirectory]];
+    NSLog(@"mediaDirectory=%@", mediaDirectory); // Debug.
     BOOL isDirectory = NO;
     if ([fm fileExistsAtPath:mediaDirectory isDirectory:&isDirectory] && isDirectory) {
         [fm removeItemAtPath:mediaDirectory error:nil];
@@ -85,7 +92,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
     [fm createDirectoryAtPath:mediaDirectory withIntermediateDirectories:NO attributes:nil error:nil];
     
     // Start recording.
-    [_timedRecorder startRecordingToDirectory:mediaDirectory];
+    [_timedRecorder startTimedRecordingToDirectory:mediaDirectory chunkInterval:_chunkInterval];
     
     return _curRecordingId;
 }
@@ -96,10 +103,14 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 
 #pragma mark ChunkingVideoRecorderDelegate Methods
 - (void) recorder:(ChunkingVideoRecorder *)recorder didChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration {
+    NSLog(@"Recording chunked."); // Debug.
+    
     [_playlistHelper appendItem:[self relativePathFromURL:chunk] withDuration:duration];
 }
 
 - (void) recorder:(ChunkingVideoRecorder *)recorder didStopRecordingWithChunk:(NSURL *)chunk index:(NSUInteger)index duration:(NSTimeInterval)duration {
+    NSLog(@"Recording ended (last chunk)."); // Debug.
+    
     [_playlistHelper appendItem:[self relativePathFromURL:chunk] withDuration:duration];
     [_playlistHelper endPlaylist];
     
@@ -108,7 +119,7 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
 }
 
 - (void) recorderDidStartRecording:(ChunkingVideoRecorder *)recorder {
-    // Not used.
+    NSLog(@"Recording started."); // Debug.
 }
 
 #pragma mark Custom Accessors
@@ -137,10 +148,15 @@ NSString *const cMediaItemRelativePathFormat = @"%@/%@";
     }
 }
 
+#pragma mark Utility
 - (NSString *) relativePathFromURL:(NSURL *)url {
     NSString *fileName = [url lastPathComponent];
-    NSString *relPath = [NSString stringWithFormat:cMediaItemRelativePathFormat, [NSString stringWithFormat:@"%d", _curRecordingId], fileName];
+    NSString *relPath = [NSString stringWithFormat:cMediaItemRelativePathFormat, [self currentMediaDirectory], fileName];
     return relPath;
+}
+
+- (NSString *) currentMediaDirectory {
+    return [NSString stringWithFormat:cMediaDirectoryFormat, _curRecordingId];
 }
 
 @end
